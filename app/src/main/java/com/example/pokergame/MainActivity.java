@@ -16,9 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem a = menu.add("Settings");
-        MenuItem b = menu.add("Account");
-        MenuItem c = menu.add("Exit");
+        getMenuInflater().inflate(R.menu.basicmenu, menu);
         return true;
     }
 }
