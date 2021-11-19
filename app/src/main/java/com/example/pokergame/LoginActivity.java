@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtnHolder = findViewById(R.id.buttonLogin);
         createBtnHolder = findViewById(R.id.newRegister);
         forgotPassHolder = findViewById(R.id.forgotPassword);
+        progressBarHolder.setVisibility(View.INVISIBLE);
 
         fAuth = FirebaseAuth.getInstance();
 
