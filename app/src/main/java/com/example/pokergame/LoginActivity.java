@@ -1,8 +1,10 @@
 package com.example.pokergame;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText emailHolder, passwordHolder;
     Button loginBtnHolder;
-    TextView createBtnHolder;
+    TextView createBtnHolder, forgotPassHolder;
     ProgressBar progressBarHolder;
     FirebaseAuth fAuth;
     @Override
@@ -35,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         progressBarHolder = findViewById(R.id.progressBar2);
         loginBtnHolder = findViewById(R.id.buttonLogin);
         createBtnHolder = findViewById(R.id.newRegister);
+        forgotPassHolder = findViewById(R.id.forgotPassword);
 
         fAuth = FirebaseAuth.getInstance();
 
@@ -70,16 +75,57 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Toast.makeText(LoginActivity.this, "Error! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            progressBarHolder.setVisibility(View.GONE);
                         }
                     }
                 });
             }
         });
 
+        //Sends user to registration activity
         createBtnHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+            }
+        });
+
+        //Reset password when user forgets password with popup 
+        forgotPassHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText resetEmail = new EditText(v.getContext());
+                AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
+                passwordResetDialog.setTitle("Reset Password");
+                passwordResetDialog.setMessage("Enter email to receive reset password link.");
+                passwordResetDialog.setView(resetEmail);
+
+                //Checks if email that user sent is valid
+                passwordResetDialog.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String currentEmail = resetEmail.getText().toString();
+
+                        fAuth.sendPasswordResetEmail(currentEmail).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(LoginActivity.this, "Reset Link sent your email.", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(LoginActivity.this, "Error! Link not sent " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                passwordResetDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Do nothing but close dialog
+                    }
+                });
             }
         });
 
