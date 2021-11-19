@@ -79,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                if(password.length() < 6) {
                    passwordHolder.setError("Password must be greater than 6 characters");
+                   return;
                }
 
                if(TextUtils.isEmpty(userName)) {
@@ -115,6 +116,16 @@ public class RegisterActivity extends AppCompatActivity {
                    }
                });
            }
+        });
+
+
+        //If user wants to log in instead of register
+
+        loginBtnHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
         });
     }
 

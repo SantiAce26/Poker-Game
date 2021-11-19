@@ -8,7 +8,7 @@
     tools:context=".LoginActivity">
 
     <EditText
-        android:id="@+id/userEmail"
+        android:id="@+id/userEmailLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="316dp"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/registerPassword"
+        android:id="@+id/userPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -64,27 +64,27 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/userEmailLog" />
 
 
     <Button
-        android:id="@+id/buttonRegister"
+        android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#510202"
         android:fontFamily="@font/baloo"
         android:lineSpacingExtra="8sp"
-        android:text="Register"
+        android:text="log In"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerPassword"
+        app:layout_constraintTop_toBottomOf="@+id/userPassword"
         app:layout_constraintVertical_bias="0.197" />
 
     <TextView
-        android:id="@+id/alreadyRegistered"
+        android:id="@+id/newRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/baloo"
@@ -93,7 +93,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -103,6 +103,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alreadyRegistered"
+        app:layout_constraintTop_toBottomOf="@+id/newRegister"
         tools:visibility="invisible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
