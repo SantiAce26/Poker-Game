@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "701702353152",
+    "project_id": "pokergame-dbaca",
+    "storage_bucket": "pokergame-dbaca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701702353152:android:01fec3c7d3cdfa5f8783e5",
+        "android_client_info": {
+          "package_name": "com.example.pokergame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701702353152-b9675ca7mhgsb8f5ejpl7th0cbmjdc6o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8HtWV5nQpLd6npdpHK8vXjOaaw63rBFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701702353152-b9675ca7mhgsb8f5ejpl7th0cbmjdc6o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
