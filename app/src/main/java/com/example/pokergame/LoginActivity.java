@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView createBtnHolder, forgotPassHolder;
     ProgressBar progressBarHolder;
     FirebaseAuth fAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassHolder = findViewById(R.id.forgotPassword);
 
         fAuth = FirebaseAuth.getInstance();
+
+        //When login button is clicked. Check if user typed an email, and a password. Logs user in
+        //if credentials are correct.
 
         loginBtnHolder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //Reset password when user forgets password with popup 
+        //Reset password when user forgets password with popup
         forgotPassHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
