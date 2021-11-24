@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Poker Game</string>
+    <string name="up">Up</string>
+    <string name="left">left</string>
+    <string name="right">Right</string>
+    <string name="down">down</string>
+    <string name="shuffle">shuffle</string>
 </resources>

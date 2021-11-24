@@ -4,6 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LobbyListActivity">
+    android:background="#092900"
+    tools:context=".CreateLobbyActivity">
+
+    <EditText
+        android:id="@+id/lobbyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginBottom="423dp"
+        android:background="#000000"
+        android:backgroundTint="#000000"
+        android:ems="10"
+        android:hint="lobbyName"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/enterLobby"
+        android:layout_width="241dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="77dp"
+        android:layout_marginEnd="77dp"
+        android:layout_marginBottom="39dp"
+        android:text="Enter the code of the lobby you want to join"
+        app:layout_constraintBottom_toTopOf="@+id/lobbyName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/createLobby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="162dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="337dp"
+        android:text="Create Lobby"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
