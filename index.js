@@ -24,6 +24,7 @@ io.on('connection', (socket) => {
     console.log(`Connection : SocketId = ${socket.id}`)
 
     var userName = "";
+    var storedString = "nothing yet";
 
     socket.on('joinRoom', function(data) {
       console.log('joining room triggered')
@@ -41,13 +42,33 @@ io.on('connection', (socket) => {
     socket.on('leaveRoom',function(data) {
         console.log('leave room triggered')
         const room_data = JSON.parse(data)
-        const userName = room_data.userName;
+        userName = room_data.userName;
         const roomName = room_data.roomName;
     
         console.log(`Username : ${userName} leaved Room Name : ${roomName}`)
         socket.broadcast.to(`${roomName}`).emit('userLeftChatRoom',userName)
         socket.leave(`${roomName}`)
     })
+
+    socket.on('store this',function(data) {
+      console.log('storing this lmao')
+      const room_data = JSON.parse(data)
+      const storeString = room_data.storeString;
+      const roomName = room_data.roomName;
+  
+      storedString = storeString;
+  })
+
+  socket.on('grab string', (arg) => {
+    console.log('getting string')
+    const room_data = arg;
+    io.to(room_data).emit("refresh string", storedString)
+
+})
+
+    socket.on('disconnect', function () {
+      console.log("One of sockets disconnected from our server.")
+  });
 
     socket.on('updateCard', function(data) {
       const card_data = JSON.parse(data)

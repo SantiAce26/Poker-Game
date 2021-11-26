@@ -24,7 +24,6 @@
         android:layout_marginEnd="162dp"
         android:layout_marginBottom="167dp"
         android:text="@string/shuffle"
-        android:onClick="doShuffle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -57,9 +56,44 @@
         android:id="@+id/leaveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="leave"
+        android:layout_marginStart="10dp"
         android:onClick="leaveLobby"
-        tools:layout_editor_absoluteX="160dp"
-        tools:layout_editor_absoluteY="640dp" />
+        android:text="leave"
+        app:layout_constraintBottom_toTopOf="@+id/guy"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/storeString"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="98dp"
+        android:layout_marginBottom="12dp"
+        android:background="#000000"
+        android:ems="10"
+        android:hint="enter yo shit"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/shufflebutton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="138dp"
+        android:layout_marginBottom="37dp"
+        android:text="refresh string"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/whatisit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="176dp"
+        android:layout_marginBottom="8dp"
+        android:text="nothing yet lol"
+        app:layout_constraintBottom_toTopOf="@+id/refreshButton"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
