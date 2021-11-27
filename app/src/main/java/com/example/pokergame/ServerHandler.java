@@ -46,9 +46,9 @@ public class ServerHandler extends AppCompatActivity{
     private Socket mSocket;
     String uName;
     String rName;
-    Button shuffleButtonHolder, refreshBtnHolder;
+    Button shuffleButtonHolder, refreshBtnHolder, startBtnHolder, leaveBtnHolder;
     EditText storeStringHolder;
-    TextView textHolder;
+    TextView textHolder, turnTextHolder;
 
 
     {
@@ -72,8 +72,11 @@ public class ServerHandler extends AppCompatActivity{
         rName = RoomName;
         shuffleButtonHolder = findViewById(R.id.shufflebutton);
         refreshBtnHolder = findViewById(R.id.refreshButton);
+        startBtnHolder = findViewById(R.id.startButton);
         storeStringHolder = findViewById(R.id.storeString);
         textHolder = (TextView) findViewById(R.id.whatisit);
+        turnTextHolder = (TextView) findViewById(R.id.turnText);
+        leaveBtnHolder = findViewById(R.id.leaveButton);
 
 
 
@@ -86,6 +89,11 @@ public class ServerHandler extends AppCompatActivity{
         mSocket.on(Socket.EVENT_CONNECT, onConnect);
         mSocket.on("update card", onUpdateCard);
         mSocket.on("refresh string", refreshString);
+        mSocket.on("your turn", onYourTurn);
+        mSocket.on("not your turn", notYourTurn);
+        mSocket.on("hostCheck", returnHostCheck);
+        mSocket.on("setNotHost", returnNotHost);
+        mSocket.on("hostDisconnected", hostDisconnect);
 
         shuffleButtonHolder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,8 +126,58 @@ public class ServerHandler extends AppCompatActivity{
 
         });
 
+        startBtnHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSocket.emit("start game", rName);
+            }
+
+        });
+        leaveBtnHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                leaveLobby(v);
+            }
+
+        });
+
     }
 
+    public Emitter.Listener returnHostCheck = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mSocket.emit("hostCheck", rName);
+                }
+            });
+        }
+    };
+
+        public Emitter.Listener returnNotHost = new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSocket.emit("setNotHost");
+                    }
+                });
+            }
+    };
+
+    public Emitter.Listener hostDisconnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    leaveBtnHolder.callOnClick();
+                }
+            });
+        }
+    };
     public Emitter.Listener refreshString = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
@@ -128,6 +186,30 @@ public class ServerHandler extends AppCompatActivity{
                 public void run() {
                     String newDisplayString = args[0].toString();
                     textHolder.setText(newDisplayString);
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener onYourTurn = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    turnTextHolder.setText("your turn");
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener notYourTurn = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    turnTextHolder.setText("not your turn");
                 }
             });
         }
@@ -216,6 +298,7 @@ public class ServerHandler extends AppCompatActivity{
         }
     };
 
+
     public void leaveLobby(View view)
     {
         JSONObject data = new JSONObject();
@@ -229,6 +312,7 @@ public class ServerHandler extends AppCompatActivity{
             e.printStackTrace();
         }
         mSocket.emit("leaveRoom", data.toString());
+        mSocket.disconnect();
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }

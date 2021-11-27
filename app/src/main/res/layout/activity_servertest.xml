@@ -57,7 +57,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:onClick="leaveLobby"
         android:text="leave"
         app:layout_constraintBottom_toTopOf="@+id/guy"
         app:layout_constraintStart_toStartOf="parent" />
@@ -95,5 +94,25 @@
         android:text="nothing yet lol"
         app:layout_constraintBottom_toTopOf="@+id/refreshButton"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/turnText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="25dp"
+        android:text="not your turn"
+        app:layout_constraintBottom_toTopOf="@+id/leftbutton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:text="start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
