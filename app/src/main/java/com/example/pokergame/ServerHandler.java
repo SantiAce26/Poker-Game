@@ -46,6 +46,7 @@ public class ServerHandler extends AppCompatActivity{
     private Socket mSocket;
     String uName;
     String rName;
+    String lobbyIntent;
     Button shuffleButtonHolder, refreshBtnHolder, startBtnHolder, leaveBtnHolder;
     EditText storeStringHolder;
     TextView textHolder, turnTextHolder;
@@ -68,8 +69,10 @@ public class ServerHandler extends AppCompatActivity{
         Intent myIntent = getIntent(); // gets the previously created intent
         String UserName = myIntent.getStringExtra("userName"); // will return "FirstKeyValue"
         String RoomName= myIntent.getStringExtra("roomName"); // will return "SecondKeyValue"
+        String LIntent= myIntent.getStringExtra("lobbyIntent"); // will return "SecondKeyValue"
         uName = UserName;
         rName = RoomName;
+        lobbyIntent = LIntent;
         shuffleButtonHolder = findViewById(R.id.shufflebutton);
         refreshBtnHolder = findViewById(R.id.refreshButton);
         startBtnHolder = findViewById(R.id.startButton);
@@ -91,9 +94,9 @@ public class ServerHandler extends AppCompatActivity{
         mSocket.on("refresh string", refreshString);
         mSocket.on("your turn", onYourTurn);
         mSocket.on("not your turn", notYourTurn);
-        mSocket.on("hostCheck", returnHostCheck);
-        mSocket.on("setNotHost", returnNotHost);
         mSocket.on("hostDisconnected", hostDisconnect);
+        mSocket.on("room already exists", roomExists);
+        mSocket.on("room doesnt exist", roomDoesntExist);
 
         shuffleButtonHolder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,29 +146,6 @@ public class ServerHandler extends AppCompatActivity{
 
     }
 
-    public Emitter.Listener returnHostCheck = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mSocket.emit("hostCheck", rName);
-                }
-            });
-        }
-    };
-
-        public Emitter.Listener returnNotHost = new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSocket.emit("setNotHost");
-                    }
-                });
-            }
-    };
 
     public Emitter.Listener hostDisconnect = new Emitter.Listener() {
         @Override
@@ -226,6 +206,7 @@ public class ServerHandler extends AppCompatActivity{
                         try {
                             data.put("userName", uName);
                             data.put("roomName", rName);
+                            data.put("intent", lobbyIntent);
 
 
                         } catch (JSONException e) {
@@ -237,6 +218,34 @@ public class ServerHandler extends AppCompatActivity{
                 });
             }
         };
+
+    public Emitter.Listener roomExists = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mSocket.disconnect();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener roomDoesntExist = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mSocket.disconnect();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                }
+            });
+        }
+    };
 
     public void doLeftImage(View view)
     {

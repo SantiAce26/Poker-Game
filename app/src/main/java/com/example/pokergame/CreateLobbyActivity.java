@@ -70,6 +70,7 @@ public class CreateLobbyActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(getApplicationContext(), ServerHandler.class);
                 myIntent.putExtra("userName", userName);
                 myIntent.putExtra("roomName", roomName);
+                myIntent.putExtra("lobbyIntent", "create");
                 startActivity(myIntent);
                 finish();
 

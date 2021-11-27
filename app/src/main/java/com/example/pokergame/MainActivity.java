@@ -54,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    public void joinLobby(View view) {
+        //Logs user out if they click on the logout button
+        startActivity(new Intent(getApplicationContext(), LobbyListActivity.class));
+        finish();
+    }
+
+
     public void logout(View view) {
         //Logs user out if they click on the logout button
         FirebaseAuth.getInstance().signOut();
