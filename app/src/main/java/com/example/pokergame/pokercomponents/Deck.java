@@ -6,7 +6,12 @@ public class Deck {
     private int[] deckOfCards;
     private int cardLocation;
 
-    public void Shuffle()
+    public Deck()
+    {
+        shuffle(); // Shuffles deck of cards and creates a new deck
+    }
+
+    public void shuffle()
     {
         int[] deck = IntStream.range(1, 53).toArray();
         int i = deck.length;
@@ -41,4 +46,8 @@ public class Deck {
     }
 
     //not sure what uniqueCheck really entails
+    public boolean uniqueCheck()
+    {
+        return true;
+    }
 }
