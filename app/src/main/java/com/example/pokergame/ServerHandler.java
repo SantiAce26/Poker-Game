@@ -53,7 +53,7 @@ public class ServerHandler extends AppCompatActivity{
 
     {
         try {
-            mSocket = IO.socket("http://10.0.2.2:3000");
+            mSocket = IO.socket("https://poker-server-thing.glitch.me");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
