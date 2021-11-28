@@ -3,10 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/tates/Documents/GitHub/Poker-Game/app/src/main/res/drawable/diamond_8.xml" value="0.3828125" />
+        <entry key="..\:/Users/tates/Documents/GitHub/Poker-Game/app/src/main/res/drawable/heart_1.xml" value="0.3828125" />
+        <entry key="..\:/Users/tates/Documents/GitHub/Poker-Game/app/src/main/res/drawable/lobby_chair.xml" value="0.3828125" />
         <entry key="..\:/Users/tates/Documents/GitHub/Poker-Game/app/src/main/res/layout/activity_create_lobby.xml" value="0.28306159420289856" />
         <entry key="..\:/Users/tates/Documents/GitHub/Poker-Game/app/src/main/res/layout/activity_lobby_list.xml" value="0.25" />
         <entry key="..\:/Users/tates/Documents/GitHub/Poker-Game/app/src/main/res/layout/activity_login.xml" value="0.28306159420289856" />
         <entry key="..\:/Users/tates/Documents/GitHub/Poker-Game/app/src/main/res/layout/activity_main.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/tates/Documents/GitHub/Poker-Game/app/src/main/res/layout/activity_poker.xml" value="0.33" />
         <entry key="..\:/Users/tates/Documents/GitHub/Poker-Game/app/src/main/res/layout/activity_servertest.xml" value="0.28940217391304346" />
       </map>
     </option>
