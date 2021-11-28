@@ -61,7 +61,7 @@ public class ServerHandler extends AppCompatActivity {
     TextView play1UserText, play2UserText, play3UserText, play4UserText;
     TextView play1ChipText, play2ChipText, play3ChipText, play4ChipText;
     TextView play1StatusText, play2StatusText, play3StatusText, play4StatusText;
-    TextView potText, turnTextHolder;
+    TextView potText, turnTextHolder, playerChipText, currentPotText;
 
 
     {
@@ -106,6 +106,8 @@ public class ServerHandler extends AppCompatActivity {
         play4StatusText = (TextView) findViewById(R.id.user4View3);
         potText = (TextView) findViewById(R.id.currentPotValue);
         turnTextHolder = (TextView) findViewById(R.id.turnInfoText);
+        playerChipText = (TextView) findViewById(R.id.playerMoney);
+        currentPotText = (TextView) findViewById(R.id.currentPotValue);
 
         play1UserText.setText("none");
         play1ChipText.setText("0");
@@ -170,6 +172,13 @@ public class ServerHandler extends AppCompatActivity {
         mSocket.on("update player2", updatePlayer2);
         mSocket.on("update player3", updatePlayer3);
         mSocket.on("update player4", updatePlayer4);
+        mSocket.on("pot update", potUpdate);
+        mSocket.on("status update",statusUpdate);
+        mSocket.on("display flop", displayFlop);
+        mSocket.on("display turn", displayTurn);
+        mSocket.on("display river", displayRiver);
+        mSocket.on("get your hand", getHand);
+        mSocket.on("display hand", displayHand);
 
 
         betBtnHolder.setOnClickListener(new View.OnClickListener() {
@@ -297,8 +306,11 @@ public class ServerHandler extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    callBtnHolder.setText("Call");
-                    callBtnHolder.setText("Raise");
+                    String callStr = "call";
+                    String raiseStr = "raise";
+                    callBtnHolder.setText(callStr);
+                    betBtnHolder.setText(raiseStr);
+                    currentPotText.setText(args[0].toString());
                     mSocket.emit("get money values", rName);
                 }
             });
@@ -409,18 +421,13 @@ public class ServerHandler extends AppCompatActivity {
                     String none = "none";
                     String empty = "empty";
                     nextPlayerSpace = 1;
-                    play1UserText.setText(none);
                     play1ChipText.setText("0");
-                    play1StatusText.setText(empty);
                     play2UserText.setText(none);
                     play2ChipText.setText("0");
-                    play2StatusText.setText(empty);
                     play3UserText.setText(none);
                     play3ChipText.setText("0");
-                    play3StatusText.setText(empty);
                     play4UserText.setText(none);
                     play4ChipText.setText("0");
-                    play4StatusText.setText(empty);
                 }
             });
         }
@@ -434,7 +441,6 @@ public class ServerHandler extends AppCompatActivity {
                 public void run() {
                     String playerJoinMsg = "Player Joined";
                     play1UserText.setText(args[0].toString());
-                    play1StatusText.setText(playerJoinMsg);
                     play1ChipText.setText(args[1].toString());
                     nextPlayerSpace = 2;
                 }
@@ -449,7 +455,6 @@ public class ServerHandler extends AppCompatActivity {
                 public void run() {
                     String playerJoinMsg = "Player Joined";
                     play2UserText.setText(args[0].toString());
-                    play2StatusText.setText(playerJoinMsg);
                     play2ChipText.setText(args[1].toString());
                     nextPlayerSpace = 3;
                 }
@@ -464,7 +469,6 @@ public class ServerHandler extends AppCompatActivity {
                 public void run() {
                     String playerJoinMsg = "Player Joined";
                     play3UserText.setText(args[0].toString());
-                    play3StatusText.setText(playerJoinMsg);
                     play3ChipText.setText(args[1].toString());
                     nextPlayerSpace = 4;
                 }
@@ -479,7 +483,6 @@ public class ServerHandler extends AppCompatActivity {
                 public void run() {
                     String playerJoinMsg = "Player Joined";
                     play4UserText.setText(args[0].toString());
-                    play4StatusText.setText(playerJoinMsg);
                     play4ChipText.setText(args[1].toString());
                     nextPlayerSpace = 5;
                 }
@@ -498,6 +501,122 @@ public class ServerHandler extends AppCompatActivity {
             });
         }
     };
+
+    public Emitter.Listener potUpdate = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    currentPotText.setText(args[0].toString());
+                    playerChipText.setText(args[1].toString());
+
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener statusUpdate = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(play1UserText.getText().toString().compareTo(args[0].toString()) == 0)
+                        play1StatusText.setText(args[1].toString());
+                    else if(play2UserText.getText().toString().compareTo(args[0].toString()) == 0)
+                        play2StatusText.setText(args[1].toString());
+                    else if(play3UserText.getText().toString().compareTo(args[0].toString()) == 0)
+                        play3StatusText.setText(args[1].toString());
+                    else if(play4UserText.getText().toString().compareTo(args[0].toString()) == 0)
+                        play4StatusText.setText(args[1].toString());
+
+
+
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener displayFlop = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int display1 = Integer.parseInt(args[0].toString());
+                    int display2 = Integer.parseInt(args[1].toString());
+                    int display3 = Integer.parseInt(args[2].toString());
+                    dealCard1.setVisibility(View.VISIBLE);
+                    dealCard2.setVisibility(View.VISIBLE);
+                    dealCard3.setVisibility(View.VISIBLE);
+                    dealCard1.setImageResource(images[display1]);
+                    dealCard2.setImageResource(images[display2]);
+                    dealCard3.setImageResource(images[display3]);
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener displayTurn = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int display1 = Integer.parseInt(args[0].toString());
+                    dealCard4.setVisibility(View.VISIBLE);
+                    dealCard4.setImageResource(images[display1]);
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener displayRiver = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int display1 = Integer.parseInt(args[0].toString());
+                    dealCard5.setVisibility(View.VISIBLE);
+                    dealCard5.setImageResource(images[display1]);
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener getHand = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mSocket.emit("draw cards", rName);
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener displayHand = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int display1 = Integer.parseInt(args[0].toString());
+                    int display2 = Integer.parseInt(args[1].toString());
+                    playCard1.setVisibility(View.VISIBLE);
+                    playCard2.setVisibility(View.VISIBLE);
+                    playCard1.setImageResource(images[display1]);
+                    playCard2.setImageResource(images[display2]);
+                }
+            });
+        }
+    };
+
+
+
 
 
 }
