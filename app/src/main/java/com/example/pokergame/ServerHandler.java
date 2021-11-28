@@ -97,6 +97,7 @@ public class ServerHandler extends AppCompatActivity{
         mSocket.on("hostDisconnected", hostDisconnect);
         mSocket.on("room already exists", roomExists);
         mSocket.on("room doesnt exist", roomDoesntExist);
+        mSocket.on("game started", gameStarted);
 
         shuffleButtonHolder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +191,18 @@ public class ServerHandler extends AppCompatActivity{
                 @Override
                 public void run() {
                     turnTextHolder.setText("not your turn");
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener gameStarted = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mSocket.emit("game go", rName);
                 }
             });
         }
