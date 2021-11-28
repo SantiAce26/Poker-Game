@@ -163,7 +163,14 @@ public class ServerHandler extends AppCompatActivity {
         mSocket.on("room doesnt exist", roomDoesntExist);
         mSocket.on("check your turn", checkTurn);
         mSocket.on("new player joined", newPlayer);
-        mSocket.on("user disconnected", playerLeft);
+        mSocket.on("user disconnected", reupdatePlayers);
+        mSocket.on("money update", moneyUpdate);
+        mSocket.on("reset players", resetPlayers);
+        mSocket.on("update player1", updatePlayer1);
+        mSocket.on("update player2", updatePlayer2);
+        mSocket.on("update player3", updatePlayer3);
+        mSocket.on("update player4", updatePlayer4);
+
 
         betBtnHolder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,6 +210,13 @@ public class ServerHandler extends AppCompatActivity {
             }
 
         });
+        startBtnHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSocket.emit("start game", rName);
+            }
+        });
+
         leaveBtnHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,6 +286,20 @@ public class ServerHandler extends AppCompatActivity {
                 @Override
                 public void run() {
                     mSocket.emit("check turn", rName);
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener moneyUpdate = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    callBtnHolder.setText("Call");
+                    callBtnHolder.setText("Raise");
+                    mSocket.emit("get money values", rName);
                 }
             });
         }
@@ -372,16 +400,15 @@ public class ServerHandler extends AppCompatActivity {
     };
 
 
-    public Emitter.Listener playerLeft = new Emitter.Listener() {
+    public Emitter.Listener resetPlayers = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    String playerJoinMsg = "Player Joined";
-                    String money = "5000";
                     String none = "none";
                     String empty = "empty";
+                    nextPlayerSpace = 1;
                     play1UserText.setText(none);
                     play1ChipText.setText("0");
                     play1StatusText.setText(empty);
@@ -394,40 +421,79 @@ public class ServerHandler extends AppCompatActivity {
                     play4UserText.setText(none);
                     play4ChipText.setText("0");
                     play4StatusText.setText(empty);
-                    nextPlayerSpace = 1;
-                    int position = 0;
-                    switch (args.length) {
-                        case 2:
-                            if (uName.compareTo(args[position].toString()) == 0) position++;
-                            play1UserText.setText(args[position].toString());
-                            play1StatusText.setText(playerJoinMsg);
-                            play1ChipText.setText(money);
-                            nextPlayerSpace++;
-                            break;
-                        case 3:
-                            if (uName.compareTo(args[position].toString()) == 0) position++;
-                            play2UserText.setText(args[position].toString());
-                            play2StatusText.setText(playerJoinMsg);
-                            play2ChipText.setText(money);
-                            nextPlayerSpace++;
-                            break;
-                        case 4:
-                            if (uName.compareTo(args[position].toString()) == 0) position++;
-                            play3UserText.setText(args[position].toString());
-                            play3StatusText.setText(playerJoinMsg);
-                            play3ChipText.setText(money);
-                            nextPlayerSpace++;
-                            break;
-                        case 5:
-                            if (uName.compareTo(args[position].toString()) == 0) position++;
-                            play4UserText.setText(args[position].toString());
-                            play4StatusText.setText(playerJoinMsg);
-                            play4ChipText.setText(money);
-                            nextPlayerSpace++;
-                            break;
+                }
+            });
+        }
+    };
 
-                    }
+    public Emitter.Listener updatePlayer1 = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String playerJoinMsg = "Player Joined";
+                    play1UserText.setText(args[0].toString());
+                    play1StatusText.setText(playerJoinMsg);
+                    play1ChipText.setText(args[1].toString());
+                    nextPlayerSpace = 2;
+                }
+            });
+        }
+    };
+    public Emitter.Listener updatePlayer2 = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String playerJoinMsg = "Player Joined";
+                    play2UserText.setText(args[0].toString());
+                    play2StatusText.setText(playerJoinMsg);
+                    play2ChipText.setText(args[1].toString());
+                    nextPlayerSpace = 3;
+                }
+            });
+        }
+    };
+    public Emitter.Listener updatePlayer3 = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String playerJoinMsg = "Player Joined";
+                    play3UserText.setText(args[0].toString());
+                    play3StatusText.setText(playerJoinMsg);
+                    play3ChipText.setText(args[1].toString());
+                    nextPlayerSpace = 4;
+                }
+            });
+        }
+    };
+    public Emitter.Listener updatePlayer4 = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String playerJoinMsg = "Player Joined";
+                    play4UserText.setText(args[0].toString());
+                    play4StatusText.setText(playerJoinMsg);
+                    play4ChipText.setText(args[1].toString());
+                    nextPlayerSpace = 5;
+                }
+            });
+        }
+    };
 
+    public Emitter.Listener reupdatePlayers = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mSocket.emit("update players", rName);
                 }
             });
         }
