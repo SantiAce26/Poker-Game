@@ -164,6 +164,7 @@ public class ServerHandler extends AppCompatActivity {
         mSocket.on("no start button", noStartButton);
         mSocket.on("reset bet and check", resetBetCheck);
         mSocket.on("player folding", playerFolding);
+        mSocket.on("hide your cards", hideUserCards);
 
 
         betBtnHolder.setOnClickListener(new View.OnClickListener() {
@@ -239,6 +240,18 @@ public class ServerHandler extends AppCompatActivity {
 
     }
 
+    public Emitter.Listener hideUserCards = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    playCard1.setVisibility(View.INVISIBLE);
+                    playCard2.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
+    };
 
     public Emitter.Listener resetBetCheck = new Emitter.Listener() {
         @Override
@@ -246,7 +259,7 @@ public class ServerHandler extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    betBtnHolder.setText("");
+                    betBtnHolder.setText("Bet");
                     callBtnHolder.setText("Check");
                 }
             });
@@ -265,7 +278,7 @@ public class ServerHandler extends AppCompatActivity {
             });
         }
     };
-    
+
     public Emitter.Listener noStartButton = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
@@ -328,6 +341,9 @@ public class ServerHandler extends AppCompatActivity {
                 @Override
                 public void run() {
                     turnTextHolder.setText("It is your turn");
+                    betBtnHolder.setVisibility(View.VISIBLE);
+                    foldBtnHolder.setVisibility(View.VISIBLE);
+                    callBtnHolder.setVisibility(View.VISIBLE);
                 }
             });
         }
@@ -340,6 +356,9 @@ public class ServerHandler extends AppCompatActivity {
                 @Override
                 public void run() {
                     turnTextHolder.setText("It is not your turn");
+                    betBtnHolder.setVisibility(View.INVISIBLE);
+                    foldBtnHolder.setVisibility(View.INVISIBLE);
+                    callBtnHolder.setVisibility(View.INVISIBLE);
                 }
             });
         }
