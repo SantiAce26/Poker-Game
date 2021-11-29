@@ -29,6 +29,7 @@ public class ServerHandler extends AppCompatActivity {
             R.drawable.spade_1, R.drawable.spade_2, R.drawable.spade_3, R.drawable.spade_4, R.drawable.spade_5, R.drawable.spade_6, R.drawable.spade_7, R.drawable.spade_8, R.drawable.spade_9, R.drawable.spade_10, R.drawable.spade_11, R.drawable.spade_12, R.drawable.spade_13,
             R.drawable.heart_1, R.drawable.heart_2, R.drawable.heart_3, R.drawable.heart_4, R.drawable.heart_5, R.drawable.heart_6, R.drawable.heart_7, R.drawable.heart_8, R.drawable.heart_9, R.drawable.heart_10, R.drawable.heart_11, R.drawable.heart_12, R.drawable.heart_13,
             R.drawable.card_back};
+
     private Socket mSocket;
     String uName;
     String rName;
@@ -39,7 +40,7 @@ public class ServerHandler extends AppCompatActivity {
     TextView play1UserText, play2UserText, play3UserText, play4UserText;
     TextView play1ChipText, play2ChipText, play3ChipText, play4ChipText;
     TextView play1StatusText, play2StatusText, play3StatusText, play4StatusText;
-    TextView potText, turnTextHolder, playerChipText, currentPotText;
+    TextView turnTextHolder, playerChipText, currentPotText;
 
 
     {
@@ -48,7 +49,6 @@ public class ServerHandler extends AppCompatActivity {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-
 
     }
 
@@ -82,11 +82,11 @@ public class ServerHandler extends AppCompatActivity {
         play4UserText = (TextView) findViewById(R.id.user4View1);
         play4ChipText = (TextView) findViewById(R.id.user4View2);
         play4StatusText = (TextView) findViewById(R.id.user4View3);
-        potText = (TextView) findViewById(R.id.currentPotValue);
         turnTextHolder = (TextView) findViewById(R.id.turnInfoText);
         playerChipText = (TextView) findViewById(R.id.playerMoney);
         currentPotText = (TextView) findViewById(R.id.currentPotValue);
 
+        //Sets text of each player
         play1UserText.setText("none");
         play1ChipText.setText("0");
         play1StatusText.setText("empty");
@@ -100,7 +100,7 @@ public class ServerHandler extends AppCompatActivity {
         play4ChipText.setText("0");
         play4StatusText.setText("empty");
 
-
+        //Sets the user's card, and dealer's card
         playCard1 = (ImageView) findViewById(R.id.playerCard1);
         playCard2 = (ImageView) findViewById(R.id.playerCard2);
         dealCard1 = (ImageView) findViewById(R.id.dealerCard1);
@@ -117,6 +117,7 @@ public class ServerHandler extends AppCompatActivity {
         play4Card1 = (ImageView) findViewById(R.id.imageUser4_view1);
         play4Card2 = (ImageView) findViewById(R.id.imageUser4_view2);
 
+        //Sets images to back of cards for each user
         playCard1.setImageResource(images[52]);
         playCard2.setImageResource(images[52]);
         dealCard1.setImageResource(images[52]);
@@ -134,6 +135,7 @@ public class ServerHandler extends AppCompatActivity {
         play4Card2.setImageResource(images[52]);
 
         mSocket.connect();
+
         //Register all the listener and callbacks here.
         mSocket.on(Socket.EVENT_CONNECT, onConnect);
         mSocket.on("your turn", onYourTurn);
@@ -164,12 +166,13 @@ public class ServerHandler extends AppCompatActivity {
             public void onClick(View v) {
                 String betString = playerBetHolder.getText().toString().trim();
 
+
                 if (TextUtils.isEmpty(betString)) {
                     playerBetHolder.setError("Number is required to bet");
                     return;
                 }
 
-
+                playerBetHolder.setText("");
                 JSONObject data = new JSONObject();
                 try {
                     data.put("betVal", betString);

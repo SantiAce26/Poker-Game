@@ -29,9 +29,8 @@ public class LobbyListActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
-    Button createBtnHolder;
     EditText roomNameHolder;
-    Button createLobbyButton;
+    Button joinLobbyButton, mainMenuLobbyButton;
     String userName;
 
 
@@ -43,7 +42,8 @@ public class LobbyListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lobby_list);
 
         roomNameHolder = findViewById(R.id.lobbyName);
-        createLobbyButton = findViewById(R.id.createLobby);
+        joinLobbyButton = findViewById(R.id.joinLobby);
+        mainMenuLobbyButton = findViewById(R.id.mainMenuJoinLobby);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -58,7 +58,7 @@ public class LobbyListActivity extends AppCompatActivity {
             }
         });
 
-        createLobbyButton.setOnClickListener(new View.OnClickListener() {
+        joinLobbyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String roomName = roomNameHolder.getText().toString().trim();
@@ -75,6 +75,15 @@ public class LobbyListActivity extends AppCompatActivity {
                 finish();
 
 
+            }
+        });
+
+        mainMenuLobbyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(myIntent);
+                finish();
             }
         });
 
