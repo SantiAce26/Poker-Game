@@ -161,6 +161,7 @@ public class ServerHandler extends AppCompatActivity {
         mSocket.on("display hand", displayHand);
         mSocket.on("winner found", displayWinner);
         mSocket.on("error handler", errorUpdate);
+        mSocket.on("money update users", statusUpdateMoney);
 
 
         betBtnHolder.setOnClickListener(new View.OnClickListener() {
@@ -549,6 +550,25 @@ public class ServerHandler extends AppCompatActivity {
 
 
 
+                }
+            });
+        }
+    };
+
+    public Emitter.Listener statusUpdateMoney = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(play1UserText.getText().toString().compareTo(args[0].toString()) == 0)
+                        play1ChipText.setText(args[1].toString());
+                    else if(play2UserText.getText().toString().compareTo(args[0].toString()) == 0)
+                        play2ChipText.setText(args[1].toString());
+                    else if(play3UserText.getText().toString().compareTo(args[0].toString()) == 0)
+                        play3ChipText.setText(args[1].toString());
+                    else if(play4UserText.getText().toString().compareTo(args[0].toString()) == 0)
+                        play4ChipText.setText(args[1].toString());
                 }
             });
         }
