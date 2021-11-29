@@ -13,6 +13,9 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".WinnerActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateLobbyActivity"
             android:exported="true" />
         <activity

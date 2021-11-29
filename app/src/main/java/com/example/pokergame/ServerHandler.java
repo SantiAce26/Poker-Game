@@ -159,6 +159,8 @@ public class ServerHandler extends AppCompatActivity {
         mSocket.on("display river", displayRiver);
         mSocket.on("get your hand", getHand);
         mSocket.on("display hand", displayHand);
+        mSocket.on("winner found", displayWinner);
+        mSocket.on("error handler", errorUpdate);
 
 
         betBtnHolder.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +205,9 @@ public class ServerHandler extends AppCompatActivity {
         startBtnHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mSocket.emit("start game", rName);
+                startBtnHolder.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -231,6 +235,37 @@ public class ServerHandler extends AppCompatActivity {
 
     }
 
+
+
+    public Emitter.Listener displayWinner = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String userName = (String) args[0];
+                    mSocket.disconnect();
+                    Intent myIntent = new Intent(getApplicationContext(), WinnerActivity.class);
+                    myIntent.putExtra("userName", userName);
+                    startActivity(myIntent);
+                    finish();
+                }
+            });
+
+        }
+    };
+
+    public Emitter.Listener errorUpdate = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    turnTextHolder.setText((String)args[0]);
+                }
+            });
+        }
+    };
 
     public Emitter.Listener hostDisconnect = new Emitter.Listener() {
         @Override
@@ -490,7 +525,7 @@ public class ServerHandler extends AppCompatActivity {
                 @Override
                 public void run() {
                     currentPotText.setText(args[0].toString());
-                    playerChipText.setText(args[1].toString());
+                    playerChipText.setText("Chips: " + args[1].toString());
 
                 }
             });
@@ -573,6 +608,11 @@ public class ServerHandler extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    dealCard1.setVisibility(View.INVISIBLE);
+                    dealCard2.setVisibility(View.INVISIBLE);
+                    dealCard3.setVisibility(View.INVISIBLE);
+                    dealCard4.setVisibility(View.INVISIBLE);
+                    dealCard5.setVisibility(View.INVISIBLE);
                     mSocket.emit("draw cards", rName);
                 }
             });
