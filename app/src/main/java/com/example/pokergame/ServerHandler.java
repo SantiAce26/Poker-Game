@@ -161,6 +161,8 @@ public class ServerHandler extends AppCompatActivity {
         mSocket.on("display hand", displayHand);
         mSocket.on("winner found", displayWinner);
         mSocket.on("error handler", errorUpdate);
+        mSocket.on("no start button", noStartButton);
+        mSocket.on("reset bet and check", resetBetCheck);
 
 
         betBtnHolder.setOnClickListener(new View.OnClickListener() {
@@ -207,9 +209,10 @@ public class ServerHandler extends AppCompatActivity {
             public void onClick(View v) {
 
                 mSocket.emit("start game", rName);
-                startBtnHolder.setVisibility(View.INVISIBLE);
             }
         });
+
+
 
         leaveBtnHolder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,6 +239,29 @@ public class ServerHandler extends AppCompatActivity {
     }
 
 
+    public Emitter.Listener resetBetCheck = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    betBtnHolder.setText("");
+                    callBtnHolder.setText("Check");
+                }
+            });
+        }
+    };
+    public Emitter.Listener noStartButton = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    startBtnHolder.setVisibility(View.INVISIBLE);
+                }
+            });
+        }
+    };
 
     public Emitter.Listener displayWinner = new Emitter.Listener() {
         @Override

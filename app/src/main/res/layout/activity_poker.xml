@@ -535,7 +535,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="10dp"
-        android:background="#991C1818"
+        android:background="#99F8F8F8"
         android:ems="10"
         android:fontFamily="@font/arbutus_slab"
         android:gravity="center"
@@ -558,6 +558,7 @@
         android:gravity="center"
         android:text="Chips: 5000"
         android:textColor="#D10C1C"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/callButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/turnInfoText" />
