@@ -163,6 +163,7 @@ public class ServerHandler extends AppCompatActivity {
         mSocket.on("error handler", errorUpdate);
         mSocket.on("no start button", noStartButton);
         mSocket.on("reset bet and check", resetBetCheck);
+        mSocket.on("player folding", playerFolding);
 
 
         betBtnHolder.setOnClickListener(new View.OnClickListener() {
@@ -251,6 +252,20 @@ public class ServerHandler extends AppCompatActivity {
             });
         }
     };
+
+    public Emitter.Listener playerFolding = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    playCard1.setImageResource(images[52]);
+                    playCard2.setImageResource(images[52]);
+                }
+            });
+        }
+    };
+    
     public Emitter.Listener noStartButton = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
