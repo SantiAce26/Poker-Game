@@ -45,6 +45,7 @@ public class ServerHandler extends AppCompatActivity {
     TextView turnTextHolder, playerChipText, currentPotText;
 
 
+
     {
         try {
             mSocket = IO.socket("http://poker-server-thing.glitch.me");
@@ -304,6 +305,11 @@ public class ServerHandler extends AppCompatActivity {
                 @Override
                 public void run() {
                     turnTextHolder.setText("Game has started");
+                    betBtnHolder.setVisibility(View.VISIBLE);
+                    foldBtnHolder.setVisibility(View.VISIBLE);
+                    callBtnHolder.setVisibility(View.VISIBLE);
+                    playerChipText.setVisibility(View.VISIBLE);
+                    playerBetHolder.setVisibility(View.VISIBLE);
                     startBtnHolder.setVisibility(View.INVISIBLE);
                 }
             });

@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/arbutus_slab"
         android:text="Bet"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/foldButton"
         app:layout_constraintHorizontal_bias="0.472"
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/arbutus_slab"
         android:text="Fold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -47,6 +49,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/arbutus_slab"
         android:text="Check"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/foldButton" />
@@ -552,6 +555,7 @@
             android:inputType="number"
             android:textColor="#D10C1C"
             android:textColorHint="#D10C1C"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/betButton"
             app:layout_constraintEnd_toStartOf="@+id/turnInfoText"
             app:layout_constraintHorizontal_bias="0.115"
@@ -570,6 +574,7 @@
         android:text="Chips: 5000"
         android:textColor="#D10C1C"
         android:textSize="16sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/callButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/turnInfoText" />
