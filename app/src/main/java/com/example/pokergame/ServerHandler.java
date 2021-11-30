@@ -303,6 +303,7 @@ public class ServerHandler extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    turnTextHolder.setText("Game has started");
                     startBtnHolder.setVisibility(View.INVISIBLE);
                 }
             });
