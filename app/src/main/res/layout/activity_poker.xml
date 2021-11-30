@@ -535,6 +535,7 @@
         android:layout_height="40dp"
         android:layout_marginBottom="60dp"
         android:textColorHint="#D10C1C"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/foldButton"
         app:layout_constraintEnd_toStartOf="@+id/turnInfoText"
         app:layout_constraintHorizontal_bias="0.603"

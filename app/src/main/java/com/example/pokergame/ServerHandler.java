@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -165,6 +167,7 @@ public class ServerHandler extends AppCompatActivity {
         mSocket.on("reset bet and check", resetBetCheck);
         mSocket.on("player folding", playerFolding);
         mSocket.on("hide your cards", hideUserCards);
+        mSocket.on("hand win", handWinner);
 
 
         betBtnHolder.setOnClickListener(new View.OnClickListener() {
@@ -239,6 +242,21 @@ public class ServerHandler extends AppCompatActivity {
         });
 
     }
+
+    public Emitter.Listener handWinner = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String userName = (String) args[0];
+                    Toast toast = Toast.makeText(ServerHandler.this, userName + " won the hand", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+            });
+        }
+    };
 
     public Emitter.Listener hideUserCards = new Emitter.Listener() {
         @Override
@@ -340,7 +358,7 @@ public class ServerHandler extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    turnTextHolder.setText("It is your turn");
+                    //turnTextHolder.setText("It is your turn");
                     betBtnHolder.setVisibility(View.VISIBLE);
                     foldBtnHolder.setVisibility(View.VISIBLE);
                     callBtnHolder.setVisibility(View.VISIBLE);
@@ -355,7 +373,7 @@ public class ServerHandler extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    turnTextHolder.setText("It is not your turn");
+                    //turnTextHolder.setText("It is not your turn");
                     betBtnHolder.setVisibility(View.INVISIBLE);
                     foldBtnHolder.setVisibility(View.INVISIBLE);
                     callBtnHolder.setVisibility(View.INVISIBLE);
@@ -598,7 +616,9 @@ public class ServerHandler extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(play1UserText.getText().toString().compareTo(args[0].toString()) == 0)
+                    if (uName.compareTo(args[0].toString()) == 0)
+                        turnTextHolder.setText(args[1].toString());
+                    else if(play1UserText.getText().toString().compareTo(args[0].toString()) == 0)
                         play1StatusText.setText(args[1].toString());
                     else if(play2UserText.getText().toString().compareTo(args[0].toString()) == 0)
                         play2StatusText.setText(args[1].toString());
